@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyChatGPT</title>
+    <style>
+        body{
+            background-color: gainsboro;
+        }
+        .wrapper{
+            width: 600px;
+            margin: auto;
+            border: 1px solid grey;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: white;
+        }
+        textarea, button{
+            font-size: 14px;
+            width: 100%;
+            border: 1px solid gainsboro;
+            border-radius: 5px;
+            padding: 5px;
+            box-sizing: border-box;
+            
+        }
+
+        button{
+            color: white;
+            background-color: darkolivegreen;
+            font-size: 16px;
+            font-style: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <h1>MyChatGPT</h1>
+        <textarea name="question" id="question"></textarea>
+        <button onclick="ask()">Ask</button>
+        <div id="answer"></div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    function ask(){
+        question = document.querySelector("#question").value
+        fetch("http://localhost:5000/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({"question": question})
+        }).then(response=>response.json())
+        .then(data=>{
+            answer = data.answer
+            document.querySelector("#answer").innerHTML = answer
+        })
+    }
+</script>
